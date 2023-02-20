@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Bootcamp.ToDoList.Backend.props" />
+</Project>
