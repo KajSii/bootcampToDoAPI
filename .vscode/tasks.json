@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Bootcamp.ToDoList.Backend.csproj",
+                "${workspaceFolder}/Bootcamp.ToDoList/Bootcamp.ToDoList.Backend/Bootcamp.ToDoList.Backend.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Bootcamp.ToDoList.Backend.csproj",
+                "${workspaceFolder}/Bootcamp.ToDoList/Bootcamp.ToDoList.Backend/Bootcamp.ToDoList.Backend.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Bootcamp.ToDoList.Backend.csproj"
+                "${workspaceFolder}/Bootcamp.ToDoList/Bootcamp.ToDoList.Backend/Bootcamp.ToDoList.Backend.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
