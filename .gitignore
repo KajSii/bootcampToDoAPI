@@ -1,15 +1,3 @@
 Bootcamp.ToDoList/Bootcamp.ToDoList.Backend/Migrations
-*.dll
-*.dll
-*.pdb
-*.cache
-*.cache
-*.cache
-*.txt
-*.dll
-*.pdb
-*.json
-*.dll
-*.dll
-*.json
-*.cache
+Bootcamp.ToDoList/Bootcamp.ToDoList.Backend/bin
+Bootcamp.ToDoList/Bootcamp.ToDoList.Backend/obj
