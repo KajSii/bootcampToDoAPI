@@ -7,13 +7,5 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
 
-  redis:
-    image: redis:latest
-    restart: always
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - redis_data:/data
-
 volumes:
   mariadb_data:
-  redis_data:

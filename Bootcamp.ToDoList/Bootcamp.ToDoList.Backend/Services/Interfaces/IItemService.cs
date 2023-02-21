@@ -12,7 +12,7 @@ namespace Bootcamp.ToDoList.Backend.Services.Interfaces
     {
         Task<ItemDto> CreateItemAsync(ItemModel model, CancellationToken ct = default);
         Task<ItemDto> GetItemAsync(Guid itemId, CancellationToken ct = default);
-        Task<List<ItemDto>> GetItemsAsync(CancellationToken ct = default);
+        Task<List<ItemDto>> GetAllItemsAsync(int? pageSize = null, CancellationToken ct = default);
         Task<ItemDto> UpdateItemAsync(Guid itemId, ItemModel model, CancellationToken ct = default);
         Task DeleteItemAsync(Guid itemId, CancellationToken ct = default);
     }
