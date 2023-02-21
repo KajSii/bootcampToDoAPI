@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\matus.adamko\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj": {}
+    "C:\\Users\\tibor.kratky\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\matus.adamko\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj": {
+    "C:\\Users\\tibor.kratky\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\matus.adamko\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj",
+        "projectUniqueName": "C:\\Users\\tibor.kratky\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj",
         "projectName": "Bootcamp.ToDoList.Backend",
-        "projectPath": "C:\\Users\\matus.adamko\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj",
-        "packagesPath": "C:\\Users\\matus.adamko\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\matus.adamko\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\obj\\",
+        "projectPath": "C:\\Users\\tibor.kratky\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\Bootcamp.ToDoList.Backend.csproj",
+        "packagesPath": "C:\\Users\\tibor.kratky\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tibor.kratky\\Documents\\GitHub\\bootcampToDoAPI\\Bootcamp.ToDoList\\Bootcamp.ToDoList.Backend\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\matus.adamko\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\tibor.kratky\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -73,7 +66,11 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.5.0, )"
+            },
+            "Swashbuckle.AspNetCore.Annotations": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
