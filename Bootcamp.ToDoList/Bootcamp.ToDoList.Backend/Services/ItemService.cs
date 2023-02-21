@@ -10,27 +10,27 @@ namespace Bootcamp.ToDoList.Backend.Services
 {
     public class ItemService : IItemService
     {
-        Task<ItemDto> IItemService.CreateItem(ItemModel model, CancellationToken ct)
+        Task<ItemDto> IItemService.CreateItemAsync(ItemModel model, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
 
-        Task IItemService.DeleteItem(Guid itemId, CancellationToken ct)
+        Task IItemService.DeleteItemAsync(Guid itemId, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
 
-        Task<ItemDto> IItemService.GetItem(Guid itemId, CancellationToken ct)
+        Task<ItemDto> IItemService.GetItemAsync(Guid itemId, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ItemDto>> IItemService.GetItems(CancellationToken ct)
+        Task<List<ItemDto>> IItemService.GetItemsAsync(CancellationToken ct)
         {
             throw new NotImplementedException();
         }
 
-        Task<ItemDto> IItemService.UpdateItem(Guid itemId, ItemModel model, CancellationToken ct)
+        Task<ItemDto> IItemService.UpdateItemAsync(Guid itemId, ItemModel model, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
