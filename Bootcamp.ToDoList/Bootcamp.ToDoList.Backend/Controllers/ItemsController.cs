@@ -92,8 +92,8 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             [Required, FromRoute(Name = "item_id")] Guid? itemId,
             CancellationToken ct)
         {
-            //TODO:
-            return BadRequest("Not implemented");
+            await _itemService.DeleteItemAsync(itemId.Value, ct);
+            return NoContent();
         }
 
         [HttpPut("{item_id}")]
@@ -110,8 +110,8 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             [FromBody, Bind] ItemModel model,
             CancellationToken ct)
         {
-            //TODO:
-            return BadRequest("Not implemented");
+            ItemDto itemDto = await _itemService.UpdateItemAsync(itemId.Value, model, ct);
+            return Ok(itemDto);
         }
     }
 }

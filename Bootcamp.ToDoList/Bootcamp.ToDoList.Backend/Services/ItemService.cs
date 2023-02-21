@@ -39,22 +39,17 @@ namespace Bootcamp.ToDoList.Backend.Services
             return item.ToDto();
         }
 
-        public Task DeleteItemAsync(Guid itemId, CancellationToken ct = default)
+        public async Task DeleteItemAsync(Guid itemId, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var item = await GetItemMethod(itemId, ct);
+
+            _context.Items.Remove(item);
+            await _context.SaveChangesAsync(ct);
         }
 
         public async Task<ItemDto> GetItemAsync(Guid itemId, CancellationToken ct = default)
         {
-            var item = await _context.Items
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.PublicId == itemId, ct);
-
-            if (item == null)
-            {
-                throw new NotFoundException($"Item with Id: {itemId} doesn't exist.");
-            }
-
+            var item = await GetItemMethod(itemId, ct);
             return item.ToDto();
         }
 
@@ -75,9 +70,30 @@ namespace Bootcamp.ToDoList.Backend.Services
             return dtos;
         }
 
-        public Task<ItemDto> UpdateItemAsync(Guid itemId, ItemModel model, CancellationToken ct = default)
+        public async Task<ItemDto> UpdateItemAsync(Guid itemId, ItemModel model, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var item = await GetItemMethod(itemId, ct);
+
+            item.Name = model.Name;
+            item.Description = model.Description;
+
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync(ct);
+            
+            return item.ToDto();
+        }
+
+        private async Task<Item> GetItemMethod(Guid itemId, CancellationToken ct = default) {
+            var item = await _context.Items
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.PublicId == itemId, ct);
+
+            if (item == null)
+            {
+                throw new NotFoundException($"Item with Id: {itemId} doesn't exist.");
+            }
+
+            return item;
         }
     }
 }
