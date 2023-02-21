@@ -117,4 +117,3 @@ C:\Users\tibor.kratky\Documents\GitHub\bootcampToDoAPI\Bootcamp.ToDoList\Bootcam
 C:\Users\tibor.kratky\Documents\GitHub\bootcampToDoAPI\Bootcamp.ToDoList\Bootcamp.ToDoList.Backend\obj\Debug\net7.0\Bootcamp.ToDoList.Backend.pdb
 C:\Users\tibor.kratky\Documents\GitHub\bootcampToDoAPI\Bootcamp.ToDoList\Bootcamp.ToDoList.Backend\obj\Debug\net7.0\Bootcamp.ToDoList.Backend.genruntimeconfig.cache
 C:\Users\tibor.kratky\Documents\GitHub\bootcampToDoAPI\Bootcamp.ToDoList\Bootcamp.ToDoList.Backend\obj\Debug\net7.0\ref\Bootcamp.ToDoList.Backend.dll
-C:\Users\tibor.kratky\Documents\GitHub\bootcampToDoAPI\Bootcamp.ToDoList\Bootcamp.ToDoList.Backend\bin\Debug\net7.0\Swashbuckle.AspNetCore.Annotations.dll
