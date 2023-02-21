@@ -23,7 +23,7 @@ namespace Bootcamp.ToDoList.Backend.Services
             _context = context;
         }
 
-        public async Task<ItemDto> CreateItemAsync(ItemModel model, CancellationToken ct = default)
+        public async Task<ItemDto> CreateItemAsync(int listId, ItemModel model, CancellationToken ct = default)
         {
             if (await _context.Items.AnyAsync(x => x.Name == model.Name, ct))
             {
@@ -32,6 +32,8 @@ namespace Bootcamp.ToDoList.Backend.Services
 
             var item = model.ToDomain();
             item.PublicId = Guid.NewGuid();
+            item.Status = false;
+            item.ListId = listId;
 
             await _context.Items.AddAsync(item, ct);
             await _context.SaveChangesAsync(ct);
@@ -80,6 +82,21 @@ namespace Bootcamp.ToDoList.Backend.Services
             _context.Items.Update(item);
             await _context.SaveChangesAsync(ct);
             
+            return item.ToDto();
+        }
+
+        public async Task<ItemDto> UpdateStatusAsync(Guid itemId, CancellationToken ct)
+        {
+            var item = await GetItemMethod(itemId, ct);
+
+            if(item.Status == true) {
+                item.Status = false;
+            } else {
+                item.Status = true;
+            }
+
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync(ct);
             return item.ToDto();
         }
 

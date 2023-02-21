@@ -26,19 +26,20 @@ namespace Bootcamp.ToDoList.Backend.Controllers
 
         public const string GetItemRouteName = "getitem";
 
-        [HttpPost]
+        [HttpPost("list/{listId}")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ItemDto))]
         [SwaggerOperation(
             summary: "Create item",
             description: "Create new item in the list",
             OperationId = "CreateItem",
-            Tags = new[] {"Item Management"}
+            Tags = new[] { "Item Management" }
         )]
         public async Task<IActionResult> CreateAsync(
             [FromBody, Bind] ItemModel model,
+            [Required, FromRoute(Name = "listId")] int listId,
             CancellationToken ct)
         {
-            ItemDto itemDto = await _itemService.CreateItemAsync(model, ct);
+            ItemDto itemDto = await _itemService.CreateItemAsync(listId, model, ct);
 
             return CreatedAtRoute(
                 GetItemRouteName,
@@ -52,7 +53,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             summary: "Get item",
             description: "Get the item in the list",
             OperationId = "GetItem",
-            Tags = new[] {"Item Management"}
+            Tags = new[] { "Item Management" }
         )]
         public async Task<IActionResult> GetAsync(
             [Required, FromRoute(Name = "item_id")] Guid? itemId,
@@ -69,7 +70,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             summary: "Get items",
             description: "Get items in the list",
             OperationId = "CreateItems",
-            Tags = new[] {"Item Management"}
+            Tags = new[] { "Item Management" }
         )]
         public async Task<IActionResult> GetAllAsync(
             CancellationToken ct)
@@ -80,13 +81,13 @@ namespace Bootcamp.ToDoList.Backend.Controllers
         }
 
         [HttpDelete("{item_id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ItemDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             summary: "Delete item",
             description: "Delete item in the list",
             OperationId = "DeleteItem",
-            Tags = new[] {"Item Management"}
+            Tags = new[] { "Item Management" }
         )]
         public async Task<IActionResult> DeleteAsync(
             [Required, FromRoute(Name = "item_id")] Guid? itemId,
@@ -97,13 +98,13 @@ namespace Bootcamp.ToDoList.Backend.Controllers
         }
 
         [HttpPut("{item_id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ItemDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             summary: "Update item",
             description: "Update item in the list",
             OperationId = "UpdateItem",
-            Tags = new[] {"Item Management"}
+            Tags = new[] { "Item Management" }
         )]
         public async Task<IActionResult> UpdateAsync(
             [Required, FromRoute(Name = "item_id")] Guid? itemId,
@@ -111,6 +112,23 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             CancellationToken ct)
         {
             ItemDto itemDto = await _itemService.UpdateItemAsync(itemId.Value, model, ct);
+            return Ok(itemDto);
+        }
+
+        [HttpPut("status/{item_id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation(
+            summary: "Update item status",
+            description: "Update item status in the list",
+            OperationId = "UpdateItemStatus",
+            Tags = new[] { "Item Management" }
+        )]
+        public async Task<IActionResult> StatusAsync(
+            [Required, FromRoute(Name = "item_id")] Guid? itemId, 
+            CancellationToken ct)
+        {
+            ItemDto itemDto = await _itemService.UpdateStatusAsync(itemId.Value, ct);
             return Ok(itemDto);
         }
     }

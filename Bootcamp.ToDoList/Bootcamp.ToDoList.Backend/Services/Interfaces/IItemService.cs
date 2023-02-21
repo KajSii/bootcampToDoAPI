@@ -10,10 +10,11 @@ namespace Bootcamp.ToDoList.Backend.Services.Interfaces
 {
     public interface IItemService
     {
-        Task<ItemDto> CreateItemAsync(ItemModel model, CancellationToken ct = default);
+        Task<ItemDto> CreateItemAsync(int listId, ItemModel model, CancellationToken ct = default);
         Task<ItemDto> GetItemAsync(Guid itemId, CancellationToken ct = default);
         Task<List<ItemDto>> GetAllItemsAsync(int? pageSize = null, CancellationToken ct = default);
         Task<ItemDto> UpdateItemAsync(Guid itemId, ItemModel model, CancellationToken ct = default);
         Task DeleteItemAsync(Guid itemId, CancellationToken ct = default);
+        Task<ItemDto> UpdateStatusAsync(Guid itemId, CancellationToken ct = default);
     }
 }

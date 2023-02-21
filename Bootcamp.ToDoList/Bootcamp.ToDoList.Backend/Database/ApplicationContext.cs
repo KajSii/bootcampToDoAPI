@@ -32,5 +32,6 @@ namespace Bootcamp.ToDoList.Backend.Database
         }
 
         public DbSet<Item> Items { get; set; }
+        public DbSet<Lists> Lists { get; set; }
     }
 }
