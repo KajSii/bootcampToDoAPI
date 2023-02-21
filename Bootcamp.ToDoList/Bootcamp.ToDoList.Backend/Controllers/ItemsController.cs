@@ -38,8 +38,12 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             [FromBody, Bind] ItemModel model,
             CancellationToken ct)
         {
-            //TODO:
-            return BadRequest("Not implemented");
+            ItemDto itemDto = await _itemService.CreateItemAsync(model, ct);
+
+            return CreatedAtRoute(
+                GetItemRouteName,
+                new { item_id = itemDto.PublicId },
+                itemDto);
         }
 
         [HttpGet("{item_id}", Name = GetItemRouteName)]
@@ -54,8 +58,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             [Required, FromRoute(Name = "item_id")] Guid? itemId,
             CancellationToken ct)
         {
-            //TODO:
-            return BadRequest("Not implemented");
+            ItemDto itemDto = await _itemService.GetItemAsync(itemId.Value, ct);
+
+            return Ok(itemDto);
         }
 
         [HttpGet]
@@ -69,8 +74,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
         public async Task<IActionResult> GetAllAsync(
             CancellationToken ct)
         {
-            //TODO:
-            return BadRequest("Not implemented");
+            List<ItemDto> listOfItems = await _itemService.GetAllItemsAsync(ct: ct);
+
+            return Ok(listOfItems);
         }
 
         [HttpDelete("{item_id}")]
