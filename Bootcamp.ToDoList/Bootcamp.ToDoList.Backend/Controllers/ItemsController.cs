@@ -83,7 +83,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             Tags = new[] {"Item Management"}
         )]
         public async Task<IActionResult> DeleteAsync(
-            [Required, FromRoute(Name = "item_id")] Guid? catalogId,
+            [Required, FromRoute(Name = "item_id")] Guid? itemId,
             CancellationToken ct)
         {
             //TODO:
@@ -100,7 +100,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             Tags = new[] {"Item Management"}
         )]
         public async Task<IActionResult> UpdateAsync(
-            [Required, FromRoute(Name = "item_id")] Guid? catalogId,
+            [Required, FromRoute(Name = "item_id")] Guid? itemId,
             [FromBody, Bind] ItemModel model,
             CancellationToken ct)
         {
