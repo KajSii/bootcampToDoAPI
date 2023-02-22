@@ -76,6 +76,7 @@ builder.Services.AddMemoryCache();
 
 
 builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

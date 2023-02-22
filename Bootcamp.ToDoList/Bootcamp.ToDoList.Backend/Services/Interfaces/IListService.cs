@@ -9,7 +9,7 @@ namespace Bootcamp.ToDoList.Backend.Services.Interfaces
 {
     public interface IListService
     {
-        Task<ListDto> CreateListAsync(ListModel model, CancellationToken ct = default);
+        Task<ListDto> CreateListAsync(/*string user,*/ ListModel model, CancellationToken ct = default);
         Task<ListDto> GetListAsync(Guid listId, CancellationToken ct = default);
         Task<List<ListDto>> GetListsAsync(int? pageSize = null, CancellationToken ct = default);
         Task DeleteListAsync(Guid listId, CancellationToken ct = default);
