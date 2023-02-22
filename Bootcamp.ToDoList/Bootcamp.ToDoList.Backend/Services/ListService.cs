@@ -16,13 +16,15 @@ namespace Bootcamp.ToDoList.Backend.Services
     public class ListService : IListService
     {
         private ApplicationContext _context;
+        //private IHttpContextAccessor _httpContextAccessor;
 
-        public ListService(ApplicationContext context)
+        public ListService(ApplicationContext context /*IHttpContextAccessor httpContextAccessor = null*/)
         {
             _context = context;
+            // _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ListDto> CreateListAsync(ListModel model, CancellationToken ct)
+        public async Task<ListDto> CreateListAsync(/*string user,*/ ListModel model, CancellationToken ct)
         {
             Lists duplicate = await _context.Lists.AsNoTracking().SingleOrDefaultAsync(x => x.Name == model.Name, ct);
             if (duplicate != null)
@@ -32,6 +34,13 @@ namespace Bootcamp.ToDoList.Backend.Services
 
             Lists list = model.ToDomain();
             list.publicId = Guid.NewGuid();
+
+            /*var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity!.Name;*/
+
+            /*User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
+            list.UserId = userData.Id;*/
+            list.UserId = 1;
 
             await _context.AddAsync(list, ct);
             await _context.SaveChangesAsync(ct);
@@ -57,6 +66,7 @@ namespace Bootcamp.ToDoList.Backend.Services
 
         public async Task<ListDto> GetListAsync(Guid listId, CancellationToken ct = default)
         {
+
             var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId, ct);
             if(list == null) {
                 throw new NotFoundException($"List with ID {listId} doesn't exists");

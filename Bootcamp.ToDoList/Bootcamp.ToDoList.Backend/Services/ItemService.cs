@@ -23,8 +23,10 @@ namespace Bootcamp.ToDoList.Backend.Services
             _context = context;
         }
 
-        public async Task<ItemDto> CreateItemAsync(int listId, ItemModel model, CancellationToken ct = default)
+        public async Task<ItemDto> CreateItemAsync(Guid listId, ItemModel model, CancellationToken ct = default)
         {
+            var list = await _context.Lists.AsNoTracking().SingleOrDefaultAsync(x => x.publicId == listId);
+
             if (await _context.Items.AnyAsync(x => x.Name == model.Name, ct))
             {
                 throw new ConflictException($"Item with name {model.Name} already exists");
@@ -33,7 +35,7 @@ namespace Bootcamp.ToDoList.Backend.Services
             var item = model.ToDomain();
             item.PublicId = Guid.NewGuid();
             item.Status = false;
-            item.ListId = listId;
+            item.ListId = list.Id;
 
             await _context.Items.AddAsync(item, ct);
             await _context.SaveChangesAsync(ct);
@@ -55,11 +57,14 @@ namespace Bootcamp.ToDoList.Backend.Services
             return item.ToDto();
         }
 
-        public async Task<List<ItemDto>> GetAllItemsAsync(int? pageSize = null, CancellationToken ct = default)
+        public async Task<List<ItemDto>> GetAllItemsAsync(Guid listId, int? pageSize = null, CancellationToken ct = default)
         {
+            var list = await _context.Lists.AsNoTracking().SingleOrDefaultAsync(x => x.publicId == listId);
+
             IQueryable<Item> query = _context.Items
                 .AsNoTracking()
-                .AsQueryable();
+                .AsQueryable()
+                .Where(x => x.ListId == list.Id);
 
             if (pageSize > 0)
             {

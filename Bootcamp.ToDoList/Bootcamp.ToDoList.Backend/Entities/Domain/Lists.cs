@@ -17,6 +17,10 @@ namespace Bootcamp.ToDoList.Backend.Entities.Domain
         public string Name { get; set; }
         public virtual ICollection<Item> Items { get; set; }
 
+        [Required]
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
+
         public ListDto ToDto()
         {
             return new ListDto

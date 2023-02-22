@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bootcamp.ToDoList.Backend.Entities.DTO;
 using Bootcamp.ToDoList.Backend.Entities.Models;
 using Bootcamp.ToDoList.Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,17 +15,21 @@ namespace Bootcamp.ToDoList.Backend.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
+    
     public class ListController : ControllerBase
     {
         private readonly IListService _listService;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public ListController(IListService listService)
+        public ListController(IListService listService, IHttpContextAccessor httpContextAccessor = null)
         {
             _listService = listService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public const string GetListRouteName = "getlist";
 
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ListDto))]
         [SwaggerOperation(
@@ -38,7 +43,10 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             CancellationToken ct
         ) 
         {
-            ListDto listDto = await _listService.CreateListAsync(model, ct);
+            /*var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity.Name;
+            Console.Write($"User = {user}");*/
+            ListDto listDto = await _listService.CreateListAsync(/*user,*/ model, ct);
             return CreatedAtRoute(
                 GetListRouteName,
                 new {list_id = listDto.publicId},
