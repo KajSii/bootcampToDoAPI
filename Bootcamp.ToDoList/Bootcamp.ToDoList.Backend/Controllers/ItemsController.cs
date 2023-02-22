@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bootcamp.ToDoList.Backend.Entities.DTO;
 using Bootcamp.ToDoList.Backend.Entities.Models;
 using Bootcamp.ToDoList.Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -15,6 +16,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class ItemsController : ControllerBase
     {
         private readonly IItemService _itemService;
@@ -36,7 +38,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
         )]
         public async Task<IActionResult> CreateAsync(
             [FromBody, Bind] ItemModel model,
-            [Required, FromRoute(Name = "listId")] int listId,
+            [Required, FromRoute(Name = "listId")] Guid listId,
             CancellationToken ct)
         {
             ItemDto itemDto = await _itemService.CreateItemAsync(listId, model, ct);
@@ -73,9 +75,10 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             Tags = new[] { "Item Management" }
         )]
         public async Task<IActionResult> GetAllAsync(
+            [Required, FromQuery] Guid listId,
             CancellationToken ct)
         {
-            List<ItemDto> listOfItems = await _itemService.GetAllItemsAsync(ct: ct);
+            List<ItemDto> listOfItems = await _itemService.GetAllItemsAsync(listId, ct: ct);
 
             return Ok(listOfItems);
         }

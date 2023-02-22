@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bootcamp.ToDoList.Backend.Entities.DTO;
 using Bootcamp.ToDoList.Backend.Entities.Models;
 using Bootcamp.ToDoList.Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,13 +15,17 @@ namespace Bootcamp.ToDoList.Backend.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
+    
+    [Authorize]
     public class ListController : ControllerBase
     {
         private readonly IListService _listService;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public ListController(IListService listService)
+        public ListController(IListService listService, IHttpContextAccessor httpContextAccessor = null)
         {
             _listService = listService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public const string GetListRouteName = "getlist";
@@ -38,7 +43,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             CancellationToken ct
         ) 
         {
-            ListDto listDto = await _listService.CreateListAsync(model, ct);
+            var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity.Name;
+            ListDto listDto = await _listService.CreateListAsync(user, model, ct);
             return CreatedAtRoute(
                 GetListRouteName,
                 new {list_id = listDto.publicId},
@@ -60,7 +67,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             CancellationToken ct
         ) 
         {
-            var listDto = await _listService.GetListAsync(listId.Value, ct);
+            var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity.Name;
+            var listDto = await _listService.GetListAsync(user, listId.Value, ct);
             return Ok(listDto);
         }
 
@@ -74,7 +83,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
         )]
         public async Task<IActionResult> GetAllAsync(CancellationToken ct)
         {
-            List<ListDto> listOfItems = await _listService.GetListsAsync(ct: ct);
+            var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity.Name;
+            List<ListDto> listOfItems = await _listService.GetListsAsync(user, ct: ct);
 
             return Ok(listOfItems);
         }
@@ -93,7 +104,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             CancellationToken ct
         )
         {
-            await _listService.DeleteListAsync(listId, ct);
+            var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity.Name;
+            await _listService.DeleteListAsync(user, listId, ct);
             return NoContent();
         }
 
@@ -112,7 +125,9 @@ namespace Bootcamp.ToDoList.Backend.Controllers
             CancellationToken ct
         )
         {
-            var list = await _listService.UpdateListAsync(listId, model, ct);
+            var httpContext = _httpContextAccessor.HttpContext;
+            var user = httpContext.User.Identity.Name;
+            var list = await _listService.UpdateListAsync(user, listId, model, ct);
             return Ok(list);
         }
     }
