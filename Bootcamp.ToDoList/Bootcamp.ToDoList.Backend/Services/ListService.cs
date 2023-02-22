@@ -16,17 +16,16 @@ namespace Bootcamp.ToDoList.Backend.Services
     public class ListService : IListService
     {
         private ApplicationContext _context;
-        //private IHttpContextAccessor _httpContextAccessor;
 
-        public ListService(ApplicationContext context /*IHttpContextAccessor httpContextAccessor = null*/)
+        public ListService(ApplicationContext context)
         {
             _context = context;
-            // _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ListDto> CreateListAsync(/*string user,*/ ListModel model, CancellationToken ct)
+        public async Task<ListDto> CreateListAsync(string user, ListModel model, CancellationToken ct)
         {
-            Lists duplicate = await _context.Lists.AsNoTracking().SingleOrDefaultAsync(x => x.Name == model.Name, ct);
+            User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
+            Lists duplicate = await _context.Lists.AsNoTracking().SingleOrDefaultAsync(x => x.Name == model.Name && x.UserId == userData.Id, ct);
             if (duplicate != null)
             {
                 throw new ConflictException($"List with name {model.Name} is already exists");
@@ -34,13 +33,9 @@ namespace Bootcamp.ToDoList.Backend.Services
 
             Lists list = model.ToDomain();
             list.publicId = Guid.NewGuid();
+            list.UserId = userData.Id;
 
-            /*var httpContext = _httpContextAccessor.HttpContext;
-            var user = httpContext.User.Identity!.Name;*/
-
-            /*User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
-            list.UserId = userData.Id;*/
-            list.UserId = 1;
+            list.UserId = userData.Id;
 
             await _context.AddAsync(list, ct);
             await _context.SaveChangesAsync(ct);
@@ -48,11 +43,12 @@ namespace Bootcamp.ToDoList.Backend.Services
             return list.ToDto();
         }
 
-        public async Task DeleteListAsync(Guid listId, CancellationToken ct = default)
+        public async Task DeleteListAsync(string user, Guid listId, CancellationToken ct = default)
         {
-            var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId, ct);
+            User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
+            var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId && x.UserId == userData.Id, ct);
             if(list == null) {
-                throw new NotFoundException($"List with ID {listId} doesn't exists");
+                throw new NotFoundException($"List with ID {listId} doesn't exists or is not yours.");
             }
 
             var test = list.Id;
@@ -64,22 +60,24 @@ namespace Bootcamp.ToDoList.Backend.Services
             await _context.SaveChangesAsync(ct);
         }
 
-        public async Task<ListDto> GetListAsync(Guid listId, CancellationToken ct = default)
+        public async Task<ListDto> GetListAsync(string user, Guid listId, CancellationToken ct = default)
         {
-
-            var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId, ct);
+            User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
+            var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId && x.UserId == userData.Id, ct);
             if(list == null) {
-                throw new NotFoundException($"List with ID {listId} doesn't exists");
+                throw new NotFoundException($"List with ID {listId} doesn't exists or is not yours.");
             }
 
             return list.ToDto();
         }
 
-        public async Task<List<ListDto>> GetListsAsync(int? pageSize, CancellationToken ct = default)
+        public async Task<List<ListDto>> GetListsAsync(string user, int? pageSize, CancellationToken ct = default)
         {
+            User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
             IQueryable<Lists> query = _context.Lists
                 .AsNoTracking()
-                .AsQueryable();
+                .AsQueryable()
+                .Where(x => x.UserId == userData.Id);
 
             if (pageSize > 0)
             {
@@ -92,11 +90,12 @@ namespace Bootcamp.ToDoList.Backend.Services
             return dtos;
         }
 
-        public async Task<ListDto> UpdateListAsync(Guid listId, ListModel model, CancellationToken ct = default)
+        public async Task<ListDto> UpdateListAsync(string user, Guid listId, ListModel model, CancellationToken ct = default)
         {
-            var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId, ct);
+            User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
+            var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId && x.UserId == userData.Id, ct);
             if(list == null) {
-                throw new NotFoundException($"List with ID {listId} doesn't exists");
+                throw new NotFoundException($"List with ID {listId} doesn't exists or is not yours.");
             }
 
             list.Name = model.Name;

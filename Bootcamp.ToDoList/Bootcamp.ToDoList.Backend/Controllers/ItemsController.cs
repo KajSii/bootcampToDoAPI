@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bootcamp.ToDoList.Backend.Entities.DTO;
 using Bootcamp.ToDoList.Backend.Entities.Models;
 using Bootcamp.ToDoList.Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -15,6 +16,7 @@ namespace Bootcamp.ToDoList.Backend.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class ItemsController : ControllerBase
     {
         private readonly IItemService _itemService;
