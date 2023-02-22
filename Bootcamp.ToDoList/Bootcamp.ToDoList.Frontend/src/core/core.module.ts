@@ -6,7 +6,6 @@ import { BannerComponent } from './banner/banner.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 
-
 @NgModule({
   declarations: [
     HeaderComponent,
