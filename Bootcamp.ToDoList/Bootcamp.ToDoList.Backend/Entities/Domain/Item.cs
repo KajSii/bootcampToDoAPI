@@ -27,6 +27,11 @@ namespace Bootcamp.ToDoList.Backend.Entities.Domain
         [Required]
         public bool Status { get; set; }
 
+        // foreign key
+        [Required]
+        public int ListId { get; set; }
+        public virtual Lists List { get; set; }
+
         public ItemDto ToDto()
         {
             return new ItemDto

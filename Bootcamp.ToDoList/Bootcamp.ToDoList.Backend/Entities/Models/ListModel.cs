@@ -7,20 +7,16 @@ using Bootcamp.ToDoList.Backend.Entities.Domain;
 
 namespace Bootcamp.ToDoList.Backend.Entities.Models
 {
-    public class ItemModel
+    public class ListModel
     {
-        [Required, StringLength(50)]
+        [Required, StringLength(15)]
         public string Name { get; set; }
 
-        [Required, StringLength(200)]
-        public string Description { get; set; }
-
-        public Item ToDomain()
+        public Lists ToDomain()
         {
-            return new Item
+            return new Lists
             {
-                Name = Name,
-                Description = Description
+                Name = Name
             };
         }
     }
