@@ -22,5 +22,6 @@ namespace Bootcamp.ToDoList.Backend.Entities.DTO
 
         [Required]
         public bool Status { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }
