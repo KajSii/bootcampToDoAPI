@@ -52,12 +52,5 @@ namespace Visma.Bootcamp.eShop.Controllers
                 return Unauthorized(e.Message);
             }
         }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> TestAuth ()
-        {
-            return Ok("success! You can read this message");
-        }
     }
 }
