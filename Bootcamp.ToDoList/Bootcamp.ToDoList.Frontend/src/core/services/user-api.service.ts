@@ -17,30 +17,18 @@ export class UserApiService {
 
   constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) { }
 
-  register(user: User) {
-    return this.http.post(`${AUTH_BASE_URL}/register`, user);
+  register(user: User): Observable<number> {
+    return this.http.post<number>(`${AUTH_BASE_URL}/register`, user);
   }
 
 
   login(user: User) {
-    return this.http.post<string>(`${AUTH_BASE_URL}/login`, user).subscribe({
-      next: (token: string) => {
-        if (!token) {
-          this.snackBar.open('No validation token added.', 'OK');
-          return;
-        }
-        localStorage.setItem('token', token);
-        localStorage.setItem("username", user.username);
-        localStorage.setItem("isLoggedIn", 'true');
-        this.router.navigate(['/item-list']);
-      },
-      error: (error) => this.snackBar.open('Something went wrong...', 'OK')
-    });
+    return this.http.post<string>(`${AUTH_BASE_URL}/login`, user);
   }
 
 
   isLoggedIn() {
-    return (localStorage.getItem("isLoggedIn") === "true");
+    return !!localStorage.getItem("token");
   }
 
 
@@ -54,7 +42,6 @@ export class UserApiService {
     this.user.password = '';
     localStorage.removeItem("username");
     localStorage.removeItem("token");
-    localStorage.setItem("isLoggedIn", String(false));
     // this.isLoggedIn$.next(false);
   }
 }

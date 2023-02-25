@@ -9,10 +9,10 @@ import { ItemApiService } from '../item-api.service';
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss']
 })
-export class ItemListComponent implements OnInit{
+export class ItemListComponent implements OnInit {
 
-  lists = {} as List[];
-  items = {} as Item[];
+  lists: List[] = [];
+  items: Item[] = [];
   showFiller = false;
   selectedOption: string = 'default';
 
@@ -28,20 +28,20 @@ export class ItemListComponent implements OnInit{
       .subscribe((lists: List[]) => {
         this.lists = lists;
       });
-    
+
     for (var list of this.lists) {
       this.addItemsToList(list.publicId);
     }
   }
 
-  
+
   addItemsToList(listId: string) {
     this.itemApiService.getItems(listId)
       .subscribe((items: Item[]) => {
         this.items = items;
       });
   }
-  
+
 
   listChanged($event: any) {
     if (this, this.selectedOption === 'default') {
@@ -55,6 +55,6 @@ export class ItemListComponent implements OnInit{
   }
 
   goToItem(item: Item) {
-    this.router.navigateByUrl(`Items/${item.publicId}`, {state: {item}});
+    this.router.navigateByUrl(`Items/${item.publicId}`, { state: { item } });
   }
 }

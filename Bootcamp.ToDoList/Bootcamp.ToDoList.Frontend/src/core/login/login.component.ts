@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserApiService } from '../services/user-api.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,16 @@ export class LoginComponent {
 
   user = {} as User;
 
-  constructor(private userApiService: UserApiService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private userApiService: UserApiService, private snackBar: MatSnackBar, private userService: UserService) { }
 
   onSubmit() {
-    if (this.loginCheck()) this.userApiService.login(this.user);
+    if (this.loginCheck()) {
+      this.userApiService.login(this.user).subscribe({
+        next: (token: string) => {
+          this.userService.handleLogin(token, this.user);
+        }, error: () => this.snackBar.open('Something went wrong...', 'OK')
+      })
+    }
   }
 
   loginCheck() {
