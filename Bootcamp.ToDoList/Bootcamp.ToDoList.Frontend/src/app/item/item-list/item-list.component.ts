@@ -46,7 +46,6 @@ export class ItemListComponent implements OnInit{
   createItem(listId: string): void {
     var item = {} as Item;
     item.name = "new";
-    // item.description = "bliscace";
     this.itemApiService.createItem(listId, item);
     this.itemApiService.getList(listId);
   }
