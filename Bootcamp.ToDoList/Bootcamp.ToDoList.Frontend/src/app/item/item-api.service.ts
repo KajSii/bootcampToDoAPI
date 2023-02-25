@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { List } from '../models/list';
 import { Item } from '../models/item';
+import { Observable } from 'rxjs';
 
 const ITEMS_BASE_URL = 'api/items';
 const LISTS_BASE_URL = 'api/list';
@@ -33,7 +34,7 @@ export class ItemApiService {
         return this.http.put(`${ITEMS_BASE_URL}/${id}`, item, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
     }
 
-    getItems(id: string) {
+    getItems(id: string): Observable<Item[]> {
         return this.http.get<Item[]>(`${ITEMS_BASE_URL}`, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token), params: {listId: id} });
     }
 

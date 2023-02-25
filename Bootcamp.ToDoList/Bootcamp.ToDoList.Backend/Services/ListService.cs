@@ -16,10 +16,12 @@ namespace Bootcamp.ToDoList.Backend.Services
     public class ListService : IListService
     {
         private ApplicationContext _context;
+        private IItemService _itemService;
 
-        public ListService(ApplicationContext context)
+        public ListService(ApplicationContext context, IItemService itemService)
         {
             _context = context;
+            _itemService = itemService;
         }
 
         public async Task<ListDto> CreateListAsync(string user, ListModel model, CancellationToken ct)
@@ -86,6 +88,11 @@ namespace Bootcamp.ToDoList.Backend.Services
 
             List<Lists> lists = await query.ToListAsync();
             List<ListDto> dtos = lists.Select(x => x.ToDto()).ToList();
+            
+            foreach (var dto in dtos)
+            {
+                dto.Items = await _itemService.GetAllItemsAsync(dto.publicId, ct: ct);
+            }
 
             return dtos;
         }

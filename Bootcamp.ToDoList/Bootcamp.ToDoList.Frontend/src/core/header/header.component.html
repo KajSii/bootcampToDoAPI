@@ -32,7 +32,11 @@
         </a> -->
         <p></p>
         <div class="ml-auto flex items-center" *ngIf="!isLoggedIn()">
-          <p>Please Login or Register your account below</p>
+          <p>Please 
+            <a href="/login">Login</a>
+             or 
+            <a href="/register">Register</a>
+             your account below</p>
         </div>
         <div class="ml-auto flex items-center" *ngIf="isLoggedIn()">
           <p>

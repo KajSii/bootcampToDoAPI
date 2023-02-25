@@ -9,52 +9,45 @@ import { ItemApiService } from '../item-api.service';
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss']
 })
-export class ItemListComponent implements OnInit {
+export class ItemListComponent implements OnInit{
 
-  lists: List[] = [];
-  items: Item[] = [];
-  showFiller = false;
+  lists: List[] | undefined;
   selectedOption: string = 'default';
 
   constructor(private itemApiService: ItemApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAvailableLists();
-    // this.addItemsToList();
   }
 
-  getAvailableLists() {
+
+  getAvailableLists(): void {
     this.itemApiService.getLists()
       .subscribe((lists: List[]) => {
         this.lists = lists;
-      });
+        this.addItemsToList(this.lists);
+      })
+  }
 
-    for (var list of this.lists) {
-      this.addItemsToList(list.publicId);
+
+  addItemsToList(lists: List[]): void {
+    for (var list of lists) {
+      this.itemApiService.getItems(list.publicId)
+        .subscribe((items: Item[]) => {
+          list.items = items;
+        });
     }
   }
 
-
-  addItemsToList(listId: string) {
-    this.itemApiService.getItems(listId)
-      .subscribe((items: Item[]) => {
-        this.items = items;
-      });
+  deleteItem(itemId: string): void {
+    this.itemApiService.deleteItem(itemId);
   }
 
-
-  listChanged($event: any) {
-    if (this, this.selectedOption === 'default') {
-      return;
-    }
-
-    this.itemApiService.getList($event)
-      .subscribe((list) => {
-        this.items = list.items!;
-      });
-  }
-
-  goToItem(item: Item) {
-    this.router.navigateByUrl(`Items/${item.publicId}`, { state: { item } });
+  createItem(listId: string): void {
+    var item = {} as Item;
+    item.name = "new";
+    // item.description = "bliscace";
+    this.itemApiService.createItem(listId, item);
+    this.itemApiService.getList(listId);
   }
 }

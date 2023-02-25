@@ -32,13 +32,13 @@ namespace Bootcamp.ToDoList.Backend.Services
                 throw new ConflictException($"Item with name {model.Name} already exists");
             }
 
-            string endTimeString = model.EndTime.ToString("yyyy-MM-dd HH:mm");
+            // string endTimeString = model.EndTime.ToString("yyyy-MM-dd HH:mm");
 
             var item = model.ToDomain();
             item.PublicId = Guid.NewGuid();
             item.Status = false;
             item.ListId = list.Id;
-            item.EndTime = DateTime.Parse(endTimeString);
+            // item.EndTime = DateTime.Parse(endTimeString);
 
             await _context.Items.AddAsync(item, ct);
             await _context.SaveChangesAsync(ct);
@@ -85,7 +85,7 @@ namespace Bootcamp.ToDoList.Backend.Services
             var item = await GetItemMethod(itemId, ct);
 
             item.Name = model.Name;
-            item.Description = model.Description;
+            // item.Description = model.Description;
 
             _context.Items.Update(item);
             await _context.SaveChangesAsync(ct);
@@ -118,9 +118,9 @@ namespace Bootcamp.ToDoList.Backend.Services
                 throw new NotFoundException($"Item with Id: {itemId} doesn't exist.");
             }
 
-            var stringDate = item.EndTime.ToString("yyyy-MM-dd HH:mm");
+            // var stringDate = item.EndTime.ToString("yyyy-MM-dd HH:mm");
 
-            item.EndTime = DateTime.Parse(stringDate);
+            // item.EndTime = DateTime.Parse(stringDate);
 
             return item;
         }
