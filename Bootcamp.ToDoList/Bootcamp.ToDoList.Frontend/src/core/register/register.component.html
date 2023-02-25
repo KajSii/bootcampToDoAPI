@@ -1,0 +1,39 @@
+
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+
+    <mat-card-header>
+      <mat-card-title>Register an account</mat-card-title>
+    </mat-card-header>
+
+    <form class="example-form" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Username:</mat-label>
+          <input autofocus matInput required name="username" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}">
+          <mat-hint>At least 6 characters.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Password:</mat-label>
+          <input matInput type="text" required name="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}">
+          <mat-hint>At least 6 characters.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Confirm password:</mat-label>
+          <input matInput type="text" required [(ngModel)]="this.passwordConfirm" [ngModelOptions]="{standalone: true}">
+          <mat-hint>Must match the password.</mat-hint>
+        </mat-form-field>
+
+        <p></p>
+        <button mat-button type="submit">Register</button>
+        <p>You already have an account? <a href="/login">Login</a></p>
+      
+      </mat-card-content>
+    </form>
+
+    <p></p>
+  </mat-card>
+</div>

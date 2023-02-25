@@ -1,20 +1,13 @@
-<div>
-<p></p>
-<h1 class="text-3xl font-medium my-6">Item List</h1>
+<div class="ml-auto flex items-center" >
 
-<div class="relative">
-  <div *ngFor="let list of lists">
-    <h3 class="text-3xl font-medium my-6">{{list.name}}</h3>
-    <h4 *ngFor="let item of items" class="text-3xl font-medium my-6">{{item.name}}</h4>
-  </div>
-  <!--  -->
-  <!-- <select [(ngModel)]="selectedOption" (ngModelChange)="listChanged($event)" class="block appearance-none w-full border border-grey-400 px-4 py-2 runded">
-    <option value="default" selected>--Please, choose a catalog--</option>
-    <option *ngFor="let list of lists" [value]="list.publicId">{{list.name}}</option>
-  </select> -->
-</div>
-</div>
+  <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+    <div *ngFor="let list of lists">
+      <mat-tab  label="{{list.name}}">
+        <ng-template matTabContent *ngFor="let item of list.items">
+          {{item.name}}
+        </ng-template>
+      </mat-tab>
+    </div>
+  </mat-tab-group>
 
-<!-- <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-    <app-product-card *ngFor="let item of items" [item]="item" (productClicked)="goToItem(item)"></app-product-card>
-</div> -->
+</div>

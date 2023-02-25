@@ -11,15 +11,16 @@ import { ItemApiService } from '../item-api.service';
 })
 export class ItemListComponent implements OnInit{
 
-  lists: List[] | undefined;
-  items: Item[] | undefined;
+  lists = {} as List[];
+  items = {} as Item[];
+  showFiller = false;
   selectedOption: string = 'default';
 
   constructor(private itemApiService: ItemApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAvailableLists();
-    this.addItemsToList();
+    // this.addItemsToList();
   }
 
   getAvailableLists() {
@@ -27,11 +28,15 @@ export class ItemListComponent implements OnInit{
       .subscribe((lists: List[]) => {
         this.lists = lists;
       });
+    
+    for (var list of this.lists) {
+      this.addItemsToList(list.publicId);
+    }
   }
 
   
-  addItemsToList() {
-    this.itemApiService.getItems()
+  addItemsToList(listId: string) {
+    this.itemApiService.getItems(listId)
       .subscribe((items: Item[]) => {
         this.items = items;
       });

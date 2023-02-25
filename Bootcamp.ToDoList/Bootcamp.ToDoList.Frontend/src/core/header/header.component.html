@@ -3,7 +3,7 @@
     <div class="ml-8 lg:block lg:self-stretch">
 
       <div class="flex h-full space-x-8 items-center">
-        <a class="color" routerLink="/home" routerLinkActive="text-green-600">
+        <!-- <a class="color" routerLink="/home" routerLinkActive="text-green-600">
           <div class="h-10 w-10">
             <svg viewBox="0 0 100 100">
               <circle cx="50%" cy="50%" r="43%" style="fill:rgb(130, 255, 130)" width="100%" height="100%"/>
@@ -29,30 +29,16 @@
               <circle cx="65%" cy="35%" r="4%" style="fill:rgb(90, 215, 90)" width="100%" height="100%"/>
             </svg>
           </div>
-        </a>
-        <a routerLink="/items" routerLinkActive="text-green-600" class="text-sm font-medium text-gray-700 hover:text-green-600">Items</a>
-        <a routerLink="/lists" routerLinkActive="text-green-600" class="text-sm font-medium text-gray-700 hover:text-green-600">Lists</a>
-        <div class="ml-auto flex items-center">
-          <div class="lg:flex lg:flex-1 lg:items-center lg:justify-end space-x-6">
-            <span class="h-6 w-px bg-gray-200"></span>
-            <button class="text-sm font-medium text-gray-700 hover:text-green-600" routerLinkActive="text-green-600">Login</button>
-          </div>
-          <div class="ml-4 flow-root lg:ml-6">
-            <a routerLink="/basket" class="group -m-2 flex items-center p-2">
-              <svg class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle cx="50%" cy="50%" r="20%" style="fill:rgb(90, 215, 90)" width="100%" height="100%"/>
-              </svg>
-              <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-            </a>
-          </div>
-          <div class="ml-4 flow-root lg:ml-6">
-            <a routerLink="/basket" class="group -m-2 flex items-center p-2">
-              <svg class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle cx="50%" cy="50%" r="20%" style="fill:rgb(218, 87, 87)" width="100%" height="100%"/>
-              </svg>
-              <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-            </a>
-          </div>
+        </a> -->
+        <p></p>
+        <div class="ml-auto flex items-center" *ngIf="!isLoggedIn()">
+          <p>Please Login or Register your account below</p>
+        </div>
+        <div class="ml-auto flex items-center" *ngIf="isLoggedIn()">
+          <p>
+            Hello, {{username}}.
+            <button align="right" (click)="onLogoutClick()">Logout</button>
+          </p>
         </div>
       </div>
 
