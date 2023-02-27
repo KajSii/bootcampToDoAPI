@@ -22,6 +22,7 @@ import { RegisterComponent } from 'src/core/register/register.component';
     CoreModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

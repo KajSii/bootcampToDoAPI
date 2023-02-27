@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ItemListComponent } from './item-list/item-list.component';
 import { ItemRoutingModule } from './item-routing.module';
 import { AngularMaterialModule } from 'src/angular-material/angular-material.module';
+import { coerceElement } from '@angular/cdk/coercion';
+import { CoreModule } from 'src/core/core.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +16,8 @@ import { AngularMaterialModule } from 'src/angular-material/angular-material.mod
   imports: [
     CommonModule,
     ItemRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    FormsModule
   ]
 })
 export class ItemModule { }

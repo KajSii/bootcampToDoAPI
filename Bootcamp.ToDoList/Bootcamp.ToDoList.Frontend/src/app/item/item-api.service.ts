@@ -18,15 +18,15 @@ export class ItemApiService {
 
 
     // Items API
-    createItem(listId: string, item: Item) {
-        return this.http.post(`${ITEMS_BASE_URL}/list/${listId}`, item, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
+    createItem(listId: string, item: Item): Observable<Item> {
+        return this.http.post<Item>(`${ITEMS_BASE_URL}/list/${listId}`, item, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
     }
 
     getItem(id: string) {
         return this.http.get<Item>(`${ITEMS_BASE_URL}/${id}`, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
     }
 
-    deleteItem(id: string) {
+    deleteItem(id: string | undefined) {
         return this.http.delete(`${ITEMS_BASE_URL}/${id}`, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
     }
 
@@ -44,8 +44,8 @@ export class ItemApiService {
 
 
     // List API
-    createList(list: List) {
-        return this.http.post(`${LISTS_BASE_URL}`, list, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
+    createList(list: List): Observable<List> {
+        return this.http.post<List>(`${LISTS_BASE_URL}`, list, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
     }
 
     getList(id: string) {

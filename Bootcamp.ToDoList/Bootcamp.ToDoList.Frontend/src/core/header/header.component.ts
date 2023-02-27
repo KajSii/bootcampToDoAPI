@@ -10,17 +10,16 @@ import { UserApiService } from '../services/user-api.service';
 })
 export class HeaderComponent implements OnInit{
 
-  username: string | null | undefined;
+  username: string | null = localStorage.getItem("username");
 
   constructor(private userApiService: UserApiService, private router: Router) { }
 
   ngOnInit(): void {
-    this.username = localStorage.getItem("username");
   }
   
   isLoggedIn() {
-    // this.isLoggedIn$ = this.userApiService.isLoggedIn();
-    return this.userApiService.isLoggedIn();
+    if (localStorage.getItem("token")) return true;
+    return false;
   }
 
   onLogoutClick() {

@@ -12,13 +12,10 @@ const AUTH_BASE_URL = 'api/auth'
 })
 export class UserApiService {
 
-  // isLoggedIn$ = new Subject<boolean>();
-  user = {} as User;
-
   constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) { }
 
-  register(user: User): Observable<number> {
-    return this.http.post<number>(`${AUTH_BASE_URL}/register`, user);
+  register(user: User): Observable<string> {
+    return this.http.post<string>(`${AUTH_BASE_URL}/register`, user);
   }
 
 
@@ -38,10 +35,7 @@ export class UserApiService {
 
 
   logout() {
-    this.user.username = '';
-    this.user.password = '';
     localStorage.removeItem("username");
     localStorage.removeItem("token");
-    // this.isLoggedIn$.next(false);
   }
 }

@@ -8,6 +8,7 @@ import { AngularMaterialModule } from 'src/angular-material/angular-material.mod
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { ItemListComponent } from 'src/app/item/item-list/item-list.component';
 
 
 @NgModule({

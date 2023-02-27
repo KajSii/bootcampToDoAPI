@@ -22,8 +22,9 @@ export class RegisterComponent {
   onSubmit() {
     if (this.checkFormValidation()) {
       this.userApiService.register(this.user).pipe(
-        mergeMap((id: number) => {
-          if (id) {
+        mergeMap((message: string) => {
+          if (message) {
+            this.snackBar.open(message, 'OK');
             return this.userApiService.login(this.user);
           } else {
             return of(null);

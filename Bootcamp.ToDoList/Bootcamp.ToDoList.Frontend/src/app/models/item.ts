@@ -5,5 +5,5 @@ export interface Item {
     name: string;
     // description: string;
     // timeOfCreation: Date;
-    state?: boolean;
+    status?: boolean;
 }
