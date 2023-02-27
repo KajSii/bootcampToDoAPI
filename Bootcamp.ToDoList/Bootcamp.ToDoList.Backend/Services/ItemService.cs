@@ -26,18 +26,32 @@ namespace Bootcamp.ToDoList.Backend.Services
         public async Task<ItemDto> CreateItemAsync(Guid listId, ItemModel model, CancellationToken ct = default)
         {
             var list = await _context.Lists.AsNoTracking().SingleOrDefaultAsync(x => x.publicId == listId);
-            
-            if (await _context.Items.AnyAsync(x => (x.Name == model.Name && x.ListId == listId), ct))
+            var item = model.ToDomain();
+            int numberOfCopies = 0;
+            while (await _context.Items.AnyAsync(x => (x.Name == model.Name && x.ListId == list.Id), ct))
             {
-                throw new ConflictException($"Item with name {model.Name} already exists");
+                numberOfCopies = ++numberOfCopies;
+                char lastIndexOfString = item.Name[item.Name.Length - 1];
+
+                if(lastIndexOfString >= 49 && lastIndexOfString <= 57)
+                {
+                    item.Name = item.Name.Remove(item.Name.Length - 1, 1) + $"{numberOfCopies}";
+
+                } 
+                else
+                {
+                    item.Name = $"{model.Name}-{numberOfCopies}";
+                }
+
+                //item.Name = $"{model.Name}-{numberOfCopies}";
+                model.Name = item.Name;
+                //throw new ConflictException($"Item with name {model.Name} already exists");
             }
 
             // string endTimeString = model.EndTime.ToString("yyyy-MM-dd HH:mm");
-
-            var item = model.ToDomain();
             item.PublicId = Guid.NewGuid();
             item.Status = false;
-            item.ListId = list.publicId.Value;
+            item.ListId = list.Id;
             // item.EndTime = DateTime.Parse(endTimeString);
 
             await _context.Items.AddAsync(item, ct);
@@ -67,7 +81,7 @@ namespace Bootcamp.ToDoList.Backend.Services
             IQueryable<Item> query = _context.Items
                 .AsNoTracking()
                 .AsQueryable()
-                .Where(x => x.ListId == list.publicId);
+                .Where(x => x.ListId == list.Id);
 
             if (pageSize > 0)
             {
