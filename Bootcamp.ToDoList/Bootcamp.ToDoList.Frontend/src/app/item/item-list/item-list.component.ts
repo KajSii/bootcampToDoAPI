@@ -17,7 +17,7 @@ export class ItemListComponent implements OnInit{
   selectedOption: string = 'default';
   newItem = {} as Item;
   newList = {} as List;
-  displayedColumns: string[] = ['status', 'name', 'deadline', 'actions'];
+  displayedColumns: string[] = ['status', 'name', 'actions']; // can add 'deadline' later
 
   constructor(private itemApiService: ItemApiService, private router: Router, private snackBar: MatSnackBar) {
     
@@ -85,9 +85,23 @@ export class ItemListComponent implements OnInit{
   }
 
   deleteList(listId: string): void {
-    this.itemApiService.deleteList(listId).subscribe(() => {
-      this.snackBar.open("Table deleted.", 'OK');
-      this.getAvailableLists();
-    });
+    this.itemApiService.deleteList(listId)
+      .subscribe(() => {
+        this.snackBar.open("Table deleted.", 'OK');
+        this.getAvailableLists();
+      });
+  }
+
+  changeStatus(itemId: string) {
+    this.itemApiService.updateItemStatus(itemId, {} as Item)
+      .subscribe((item: Item) => {
+        if (item.status == true) {
+          this.snackBar.open("Task completed.", 'OK');
+        }
+        else if (item.status == false) {
+          this.snackBar.open("Task UNcompleted.", 'OK')
+        }
+        this.getAvailableLists();
+      });
   }
 }

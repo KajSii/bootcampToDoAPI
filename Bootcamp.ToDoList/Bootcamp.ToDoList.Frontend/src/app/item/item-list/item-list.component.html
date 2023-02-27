@@ -5,12 +5,25 @@
 
       <div class="grid grid-cols-2 items-center">
 
-        <form class="example-form grid grid-cols-2 items-center" (ngSubmit)="createItem(list.publicId!)">
+        <form class="example-form grid grid-cols-3 items-center" (ngSubmit)="createItem(list.publicId!)">
+
           <mat-form-field class="self-center create-task" appearance="fill">
-            <!-- <mat-label>New Tast Name</mat-label> -->
             <input class="" matInput required placeholder="New Task Name" name="newItemName" [(ngModel)]="newItem.name">
           </mat-form-field>
+
+          <!-- <mat-form-field class="self-center create-task" appearance="fill">
+            <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="dateControl"
+              [min]="minDate" [max]="maxDate" [disabled]="disabled">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+              [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+              [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian" 
+              [disableMinute]="disableMinute" [hideTime]="hideTime">
+            </ngx-mat-datetime-picker>
+          </mat-form-field> -->
+
           <button class="w-40 justify-self-center" mat-raised-button type="submit">Create Task</button>
+
         </form>
         <button class="w-40 justify-self-end" mat-raised-button (click)="deleteList(list.publicId!)">
           Delete Table!
@@ -22,7 +35,7 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef class="w-10"> State </th>
           <td mat-cell *matCellDef="let item">
-            <input [(ngModel)]="item.status" type="checkbox" class="w-8">
+            <input class="w-8" (click)="changeStatus(item.publicId)" [(ngModel)]="item.status" type="checkbox">
           </td>
         </ng-container>
 

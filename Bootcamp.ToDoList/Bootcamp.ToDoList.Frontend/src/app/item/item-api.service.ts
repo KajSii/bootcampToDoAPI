@@ -38,8 +38,12 @@ export class ItemApiService {
         return this.http.get<Item[]>(`${ITEMS_BASE_URL}`, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token), params: {listId: id} });
     }
 
-    updateItemStatus(id: string, item: Item) {
-        return this.http.put(`${ITEMS_BASE_URL}/status/${id}`, item, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
+    // updateItemStatus(id: string, item: Item) {
+    //     return this.http.put(`${ITEMS_BASE_URL}/status/${id}`, item, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
+    // }
+
+    updateItemStatus(id: string, item: Item): Observable<Item> {
+        return this.http.put<Item>(`${ITEMS_BASE_URL}/status/${id}`, item, { headers: new HttpHeaders().set('authorization', "Bearer " + this.token) });
     }
 
 
