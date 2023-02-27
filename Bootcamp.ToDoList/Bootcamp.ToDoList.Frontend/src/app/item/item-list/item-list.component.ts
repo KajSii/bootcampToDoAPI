@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { mergeMap } from 'rxjs';
 import { Item } from 'src/app/models/item';
 import { List } from 'src/app/models/list';
 import { ItemApiService } from '../item-api.service';
+import { ItemUpdateComponent } from '../item-update/item-update.component';
 
 @Component({
   selector: 'app-item-list',
@@ -17,9 +20,14 @@ export class ItemListComponent implements OnInit{
   selectedOption: string = 'default';
   newItem = {} as Item;
   newList = {} as List;
-  displayedColumns: string[] = ['status', 'name', 'deadline', 'actions'];
+  editItem = {} as Item;
+  deadline: Date | undefined;
+  minDate = new Date();
+  dateControl = new FormControl(new Date());
+  @ViewChild('picker') picker: any
+  displayedColumns: string[] = ['status', 'name', 'deadline', 'actions']; // can add 'deadline' later
 
-  constructor(private itemApiService: ItemApiService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private itemApiService: ItemApiService, private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog) {
     
   }
 
@@ -69,8 +77,23 @@ export class ItemListComponent implements OnInit{
       });
   }
 
-  editItem(itemId: string): void {
-    this.itemApiService.updateItem(itemId, this.newItem).subscribe();
+  openEditDialog(itemId: string):void {
+    const dialogRef = this.dialog.open(ItemUpdateComponent, { width: '275px', data: {} });
+
+    dialogRef.afterClosed().subscribe((result: Item) => {
+      if (result) {
+        this.itemApiService.getItem(itemId).subscribe((item: Item) => {
+          this.editItem.name = result.name;
+          this.itemApiService.updateItem(itemId, this.editItem)
+          .subscribe(() => {
+            this.snackBar.open("Task edited.", 'OK');
+            this.getAvailableLists();
+            this.editItem.name = '';
+          })
+        });
+        
+      }
+    });
   }
 
   createList(): void {
@@ -85,9 +108,25 @@ export class ItemListComponent implements OnInit{
   }
 
   deleteList(listId: string): void {
-    this.itemApiService.deleteList(listId).subscribe(() => {
-      this.snackBar.open("Table deleted.", 'OK');
-      this.getAvailableLists();
-    });
+    this.itemApiService.deleteList(listId)
+      .subscribe(() => {
+        this.snackBar.open("Table deleted.", 'OK');
+        this.getAvailableLists();
+      });
   }
+
+  changeStatus(itemId: string) {
+    this.itemApiService.updateItemStatus(itemId, {} as Item)
+      .subscribe((item: Item) => {
+        if (item.status == true) {
+          this.snackBar.open("Task completed.", 'OK');
+        }
+        else if (item.status == false) {
+          this.snackBar.open("Task UNcompleted.", 'OK')
+        }
+        this.getAvailableLists();
+      });
+  }
+
+
 }
