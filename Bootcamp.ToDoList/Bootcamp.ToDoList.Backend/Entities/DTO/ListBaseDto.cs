@@ -7,7 +7,7 @@ namespace Bootcamp.ToDoList.Backend.Entities.DTO
 {
     public class ListBaseDto
     {
-        public Guid publicId { get; set; }
-        public string Name { get; set; }
+        // public Guid publicId { get; set; }
+        // public string Name { get; set; }
     }
 }

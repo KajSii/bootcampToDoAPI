@@ -16,10 +16,12 @@ namespace Bootcamp.ToDoList.Backend.Services
     public class ListService : IListService
     {
         private ApplicationContext _context;
+        private IItemService _itemService;
 
-        public ListService(ApplicationContext context)
+        public ListService(ApplicationContext context, IItemService itemService)
         {
             _context = context;
+            _itemService = itemService;
         }
 
         public async Task<ListDto> CreateListAsync(string user, ListModel model, CancellationToken ct)
@@ -65,10 +67,14 @@ namespace Bootcamp.ToDoList.Backend.Services
             User userData = await _context.Users.AsNoTracking().SingleOrDefaultAsync(x => x.UserName == user, ct);
             var list = await _context.Lists.AsNoTracking().Include(x => x.Items).SingleOrDefaultAsync(x => x.publicId == listId && x.UserId == userData.Id, ct);
             if(list == null) {
-                throw new NotFoundException($"List with ID {listId} doesn't exists or is not yours.");
+                throw new NotFoundException($"Can't access List with ID: {list.publicId}");
             }
 
-            return list.ToDto();
+            var dto = list.ToDto();
+
+            dto.Items = await _itemService.GetAllItemsAsync(dto.publicId, ct: ct);
+
+            return dto;
         }
 
         public async Task<List<ListDto>> GetListsAsync(string user, int? pageSize, CancellationToken ct = default)
@@ -86,6 +92,11 @@ namespace Bootcamp.ToDoList.Backend.Services
 
             List<Lists> lists = await query.ToListAsync();
             List<ListDto> dtos = lists.Select(x => x.ToDto()).ToList();
+            
+            foreach (var dto in dtos)
+            {
+                dto.Items = await _itemService.GetAllItemsAsync(dto.publicId, ct: ct);
+            }
 
             return dtos;
         }

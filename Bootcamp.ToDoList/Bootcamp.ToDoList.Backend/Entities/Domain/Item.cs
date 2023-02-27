@@ -18,19 +18,20 @@ namespace Bootcamp.ToDoList.Backend.Entities.Domain
         [Required, StringLength(50)]
         public string Name { get; set; }
 
-        [Required, StringLength(200)]
-        public string Description { get; set; }
+        // [Required, StringLength(200)]
+        // public string Description { get; set; }
 
         [Required]
         public DateTime TimeOfCreation { get; set; } = DateTime.Now;
 
         [Required]
         public bool Status { get; set; }
-        public DateTime EndTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
 
         // foreign key
         [Required]
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
         public virtual Lists List { get; set; }
 
         public ItemDto ToDto()
@@ -39,7 +40,7 @@ namespace Bootcamp.ToDoList.Backend.Entities.Domain
             {
                 PublicId = PublicId,
                 Name = Name,
-                Description = Description,
+                // Description = Description,
                 TimeOfCreation = TimeOfCreation,
                 Status = Status,
                 EndTime = EndTime

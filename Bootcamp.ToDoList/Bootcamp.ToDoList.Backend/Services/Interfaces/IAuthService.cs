@@ -8,7 +8,7 @@ namespace Visma.Bootcamp.eShop.ApplicationCore.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<int> Register(User User, string password);
+        Task<string> Register(User User, string password);
         Task<string> Login(string UserName, string password);
         Task<bool> UserExists(string UserName);
     }

@@ -12,16 +12,16 @@ namespace Bootcamp.ToDoList.Backend.Entities.Models
         [Required, StringLength(50)]
         public string Name { get; set; }
 
-        [Required, StringLength(200)]
-        public string Description { get; set; }
-        public DateTime EndTime { get; set; } = DateTime.Now;
+        // [Required, StringLength(200)]
+        // public string Description { get; set; }
+        public DateTime? EndTime { get; set; }
 
         public Item ToDomain()
         {
             return new Item
             {
                 Name = Name,
-                Description = Description,
+                // Description = Description,
                 EndTime = EndTime
             };
         }

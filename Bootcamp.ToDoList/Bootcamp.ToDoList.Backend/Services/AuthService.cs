@@ -43,7 +43,7 @@ namespace Visma.Bootcamp.eShop.ApplicationCore.Services
             return CreateToken(user);
         }
 
-        public async Task<int> Register(User user, string password)
+        public async Task<string> Register(User user, string password)
         {
             // Skontrolovat ci user existuje
             if (await this.UserExists(user.UserName))
@@ -64,7 +64,7 @@ namespace Visma.Bootcamp.eShop.ApplicationCore.Services
             // Ulozit zmeny
             await _context.SaveChangesAsync();
 
-            return user.Id;
+            return "User successfully created.";
         }
 
         public async Task<bool> UserExists(string username)

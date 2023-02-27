@@ -1,7 +1,7 @@
 import { Item } from "./item";
 
 export interface List {
-    publicId: string;
+    publicId?: string;
     name: string;
-    items: Item[];
+    items?: Item[];
 }
