@@ -17,7 +17,7 @@ export class ItemListComponent implements OnInit{
   selectedOption: string = 'default';
   newItem = {} as Item;
   newList = {} as List;
-  displayedColumns: string[] = ['status', 'name', 'actions'];
+  displayedColumns: string[] = ['status', 'name', 'deadline', 'actions'];
 
   constructor(private itemApiService: ItemApiService, private router: Router, private snackBar: MatSnackBar) {
     

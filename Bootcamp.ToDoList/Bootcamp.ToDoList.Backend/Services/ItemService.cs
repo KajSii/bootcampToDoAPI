@@ -85,6 +85,7 @@ namespace Bootcamp.ToDoList.Backend.Services
             var item = await GetItemMethod(itemId, ct);
 
             item.Name = model.Name;
+            item.EndTime = model.EndTime;
             // item.Description = model.Description;
 
             _context.Items.Update(item);

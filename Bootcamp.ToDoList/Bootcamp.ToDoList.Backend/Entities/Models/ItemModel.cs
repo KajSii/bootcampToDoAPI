@@ -14,7 +14,7 @@ namespace Bootcamp.ToDoList.Backend.Entities.Models
 
         // [Required, StringLength(200)]
         // public string Description { get; set; }
-        // public DateTime EndTime { get; set; } = DateTime.Now;
+        public DateTime? EndTime { get; set; }
 
         public Item ToDomain()
         {
@@ -22,7 +22,7 @@ namespace Bootcamp.ToDoList.Backend.Entities.Models
             {
                 Name = Name,
                 // Description = Description,
-                // EndTime = EndTime
+                EndTime = EndTime
             };
         }
     }

@@ -21,12 +21,13 @@ namespace Bootcamp.ToDoList.Backend.Entities.Domain
         // [Required, StringLength(200)]
         // public string Description { get; set; }
 
-        // [Required]
-        // public DateTime TimeOfCreation { get; set; } = DateTime.Now;
+        [Required]
+        public DateTime TimeOfCreation { get; set; } = DateTime.Now;
 
         [Required]
         public bool Status { get; set; }
-        // public DateTime EndTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
 
         // foreign key
         [Required]
@@ -40,9 +41,9 @@ namespace Bootcamp.ToDoList.Backend.Entities.Domain
                 PublicId = PublicId,
                 Name = Name,
                 // Description = Description,
-                // TimeOfCreation = TimeOfCreation,
+                TimeOfCreation = TimeOfCreation,
                 Status = Status,
-                // EndTime = EndTime
+                EndTime = EndTime
             };
         }
     }
