@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Edit</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="item.name" placeholder="New Task Name">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <!-- Toto je result co vrati -->
+  <button mat-button [mat-dialog-close]="{name: item.name}" cdkFocusInitial>Edit</button>
+</mat-dialog-actions>
