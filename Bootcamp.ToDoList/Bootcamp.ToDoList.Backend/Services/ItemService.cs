@@ -33,7 +33,7 @@ namespace Bootcamp.ToDoList.Backend.Services
                 numberOfCopies = ++numberOfCopies;
                 char lastIndexOfString = item.Name[item.Name.Length - 1];
 
-                if(lastIndexOfString >= 49 && lastIndexOfString <= 57)
+                if(lastIndexOfString >= 49 && lastIndexOfString <= 57 && numberOfCopies > 1)
                 {
                     item.Name = item.Name.Remove(item.Name.Length - 1, 1) + $"{numberOfCopies}";
 
