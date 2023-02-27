@@ -84,11 +84,13 @@ export class ItemListComponent implements OnInit{
       if (result) {
         this.itemApiService.getItem(itemId).subscribe((item: Item) => {
           this.editItem.name = result.name;
+          this.editItem.endTime = result.endTime;
           this.itemApiService.updateItem(itemId, this.editItem)
           .subscribe(() => {
             this.snackBar.open("Task edited.", 'OK');
             this.getAvailableLists();
             this.editItem.name = '';
+            this.editItem.endTime = undefined;
           })
         });
         

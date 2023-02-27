@@ -1,7 +1,14 @@
 <h2 mat-dialog-title>Edit</h2>
+<form>
 <mat-dialog-content>
   <mat-form-field>
-    <input matInput [(ngModel)]="item.name" placeholder="New Task Name">
+    <input matInput required [(ngModel)]="item.name" placeholder="New Task Name" [ngModelOptions]="{standalone: true}">
+  </mat-form-field>
+  <mat-form-field class="self-center create-task" appearance="fill">
+    <mat-label>Deadline</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="item.endTime" [ngModelOptions]="{standalone: true}">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
@@ -9,3 +16,4 @@
   <!-- Toto je result co vrati -->
   <button mat-button [mat-dialog-close]="{name: item.name}" cdkFocusInitial>Edit</button>
 </mat-dialog-actions>
+</form>
